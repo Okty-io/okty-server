@@ -1,7 +1,6 @@
 docker:
   build: 'docker/nginx'
 files:
-  - Dockerfile
   - default.conf
 config:
   Dockerfile:
