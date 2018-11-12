@@ -9,9 +9,9 @@ COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 RUN apk add --no-cache ca-certificates icu-libs git unzip zlib-dev make && \
     apk add --no-cache --virtual .build-deps $PHPIZE_DEPS icu-dev && \
     # Extension PHP
-    pecl install xdebug apcu && \
-    docker-php-ext-install intl pdo_mysql && \
-    docker-php-ext-enable xdebug apcu opcache && \
+    pecl install xdebug && \
+    docker-php-ext-install zip && \
+    docker-php-ext-enable xdebug && \
     # php.ini
     echo "short_open_tag = off" >> /usr/local/etc/php/php.ini && \
     echo "date.timezone = Europe/Paris" >> /usr/local/etc/php/conf.d/symfony.ini && \
