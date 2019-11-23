@@ -3,18 +3,20 @@ language: bash
 cache:
     directories:
         - $HOME/.composer/cache
+        - $HOME/.sonar
 
 services:
     - docker
 
 before_install:
     - cp .env.dist .env
-    - echo $SONAR_TOKEN
 
 install:
     - docker run -v $(pwd):/app -v $HOME/.composer/cache:/tmp composer:1.8 install
 
-script: true
+script:
+    - docker run -v $(pwd):/app -w /app phpunit/phpunit -c phpunit.xml.dist
+    - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then docker run -v $PWD:/usr/src -v $HOME/.sonar:/root/.sonar -e SONAR_TOKEN=$SONAR_TOKEN newtmitch/sonar-scanner:4.0 ; fi
 
 deploy:
     -   provider: heroku
@@ -31,6 +33,3 @@ deploy:
         on:
             repo: Okty-io/okty-server
             branch: dev
-
-after_deploy:
-    - docker run -v $(pwd):/usr/src newtmitch/sonar-scanner  -Dsonar.projectBaseDir=/usr/src -Dsonar.login=$SONAR_TOKEN
