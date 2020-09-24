@@ -1,0 +1,18 @@
+language: node_js
+node_js: 12
+
+services:
+  - docker
+
+install:
+  - npm install
+
+script:
+  - npm run test
+
+before_deploy:
+  - rm -rf ./__tests__
+  - npm prune --production
+
+deploy:
+  script: "return 0;"
