@@ -3,7 +3,6 @@ language: python
 env:
   global:
     - NODE_VERSION=12.18
-    - AWS_REGION=ca-central-1
     - ARTIFACT_BUCKET=okty-artifacts
 
 services:
@@ -19,13 +18,12 @@ before_deploy:
   - rm -rf ./__tests__
   - docker run -v ${TRAVIS_BUILD_DIR}:/app -w /app node:${NODE_VERSION} npm prune --production
   - pip install awscli aws-sam-cli
-  - sam validate --region ${AWS_REGION}
+  - sam validate
 
 deploy:
   provider: script
   script:
-    - "return 0;"
-#    - sam package
-#    - sam deploy
+    - sam package --s3-bucket ${ARTIFACT_BUCKET} --output-template-file generated.yml
+    - sam deploy --template-file generated.yml --stack-name okty-builder
   on:
     all_branches: true
