@@ -1,0 +1,31 @@
+[
+  {
+    "image": "nodejs",
+    "args": {
+      "id": "node",
+      "version": "8-alpine",
+      "volumes": [
+        {
+          "host": "./",
+          "container": "/home/node/app"
+        }
+      ],
+      "compose": [
+        {
+          "key": "working_dir",
+          "value": "/home/node/app"
+        },
+        {
+          "key": "command",
+          "value": "npm install && npm start"
+        }
+      ],
+      "ports": [
+        {
+          "host": "3000",
+          "container": "3000"
+        }
+      ]
+    }
+  }
+]

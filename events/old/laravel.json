@@ -1,0 +1,111 @@
+[
+  {
+    "image": "php-fpm",
+    "args": {
+      "id": "php-fpm",
+      "files": [
+        {
+          "key": "php_version",
+          "value": "7.2-fpm"
+        },
+        {
+          "key": "php_extensions",
+          "value": "pdo_mysql,intl,opcache"
+        }
+      ],
+      "volumes": [
+        {
+          "host": "./",
+          "container": "/usr/share/nginx/html"
+        }
+      ]
+    }
+  },
+  {
+    "image": "mariadb",
+    "args": {
+      "id": "mariadb",
+      "ports": [],
+      "environments": [
+        {
+          "key": "MYSQL_DATABASE",
+          "value": "docker"
+        },
+        {
+          "key": "MYSQL_USER",
+          "value": "docker"
+        },
+        {
+          "key": "MYSQL_PASSWORD",
+          "value": "s3cr3t"
+        },
+        {
+          "key": "MYSQL_RANDOM_ROOT_PASSWORD",
+          "value": "yes"
+        }
+      ]
+    }
+  },
+  {
+    "image": "nginx",
+    "args": {
+      "id": "nginx",
+      "ports": [
+        {
+          "host": 8080,
+          "container": "80"
+        }
+      ],
+      "volumes": [
+        {
+          "host": "./",
+          "container": "/usr/share/nginx/html"
+        }
+      ],
+      "files": [
+        {
+          "key": "max_upload_size",
+          "value": "2M"
+        },
+        {
+          "key": "php_container_link",
+          "value": "php-fpm"
+        },
+        {
+          "key": "root_folder",
+          "value": "public"
+        }
+      ]
+    }
+  },
+  {
+    "image": "composer",
+    "args": {
+      "id": "composer",
+      "volumes": [
+        {
+          "host": "./",
+          "container": "/app"
+        }
+      ],
+      "compose": [
+        {
+          "key": "command",
+          "value": "install"
+        }
+      ]
+    }
+  },
+  {
+    "image": "adminer",
+    "args": {
+      "id": "adminer",
+      "ports": [
+        {
+          "host": 8081,
+          "container": "8080"
+        }
+      ]
+    }
+  }
+]

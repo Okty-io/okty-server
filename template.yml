@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+    ApiGateway:
+        Type: AWS::Serverless::Api
+        Properties:
+            Name: Okty Frontend Gateway
+            StageName: Prod
+
+    BuilderFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            CodeUri: src
+            Handler: index.handle
+            Runtime: nodejs12.x
+            MemorySize: 128
+            Timeout: 10
+            Events:
+                Api:
+                    Type: Api
+                    Properties:
+                        RestApiId: !Ref ApiGateway
+                        Path: /build
+                        Method: POST
+
+Outputs:
+    WebEndpoint:
+        Description: "API Gateway endpoint URL for Prod stage"
+        Value: !Sub "https://${ApiGateway}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
