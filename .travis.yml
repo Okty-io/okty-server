@@ -9,14 +9,14 @@ services:
   - docker
 
 install:
-  - docker run -v $(PWD):/app -w /app node:$(NODE_VERSION) npm install
+  - docker run -v ${TRAVIS_BUILD_DIR}:/app -w /app node:${NODE_VERSION} npm install
 
 script:
-  - docker run -v $(PWD):/app -w /app node:$(NODE_VERSION) npm run test
+  - docker run -v ${TRAVIS_BUILD_DIR}:/app -w /app node:${NODE_VERSION} npm run test
 
 before_deploy:
   - rm -rf ./__tests__
-  - docker run -v $(PWD):/app -w /app node:$(NODE_VERSION) npm prune --production
+  - docker run -v ${TRAVIS_BUILD_DIR}:/app -w /app node:${NODE_VERSION} npm prune --production
   - pip install awscli aws-sam-cli
   - sam validate
 
