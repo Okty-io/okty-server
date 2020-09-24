@@ -1,18 +1,28 @@
-language: node_js
-node_js: 12
+language: python
+
+env:
+  global:
+    - NODE_VERSION=12.18
+    - ARTIFACT_BUCKET=okty-artifacts
 
 services:
   - docker
 
 install:
-  - npm install
+  - docker run -v $(PWD):/app -w /app node:$(NODE_VERSION) npm install
 
 script:
-  - npm run test
+  - docker run -v $(PWD):/app -w /app node:$(NODE_VERSION) npm run test
 
 before_deploy:
   - rm -rf ./__tests__
-  - npm prune --production
+  - docker run -v $(PWD):/app -w /app node:$(NODE_VERSION) npm prune --production
+  - pip install awscli aws-sam-cli
+  - sam validate
 
 deploy:
-  script: "return 0;"
+  provider: script
+  script:
+    - "return 0;"
+#    - sam package
+#    - sam deploy
