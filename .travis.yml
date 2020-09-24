@@ -22,8 +22,8 @@ before_deploy:
 
 deploy:
   provider: script
-  script: |
-    sam package --s3-bucket ${ARTIFACT_BUCKET} --output-template-file generated.yml
+  script: >-
+    sam package --s3-bucket ${ARTIFACT_BUCKET} --output-template-file generated.yml &&
     sam deploy --template-file generated.yml --stack-name okty-builder
   on:
     all_branches: true
