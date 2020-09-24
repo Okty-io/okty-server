@@ -1,9 +1,0 @@
-services:
-    App\Service\LambdaInterface:
-        alias: 'App\Service\Lambda'
-
-    App\Repository\ContainerRepositoryInterface:
-        alias: 'App\Repository\ContainerRepository'
-
-    App\Repository\TemplateRepositoryInterface:
-        alias: 'App\Repository\TemplateRepository'
