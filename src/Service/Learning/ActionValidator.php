@@ -15,7 +15,7 @@ use Traversable;
  */
 class ActionValidator
 {
-    private $validators;
+    private \Traversable $validators;
 
     public function __construct(Traversable $validators)
     {

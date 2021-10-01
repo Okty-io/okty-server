@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace App\Event\Build;
 
 use App\ValueObject\Project;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * @author Laurent Bassin <laurent@bassin.info>
  */
 class AfterBuildEvent extends Event
 {
-    private $containers;
-    private $project;
+    private arrray $containers;
+    private Project $project;
 
     public function __construct(Project $project, array $containers)
     {

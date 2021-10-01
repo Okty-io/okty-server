@@ -9,8 +9,8 @@ namespace App\ValueObject\Learning\Github;
  */
 class Step
 {
-    private $text;
-    private $action;
+    private array $text;
+    private ?Action $action = null;
 
     public function __construct(array $config)
     {
@@ -42,7 +42,7 @@ class Step
         return $this->text[$language];
     }
 
-    public function getAction(): ?Action
+    public function getAction(): Action
     {
         return $this->action;
     }

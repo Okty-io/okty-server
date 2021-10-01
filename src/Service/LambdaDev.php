@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -7,7 +9,7 @@ namespace App\Service;
  */
 class LambdaDev implements LambdaInterface
 {
-    private $apiUrl;
+    private string $apiUrl;
 
     public function __construct()
     {
@@ -28,8 +30,7 @@ class LambdaDev implements LambdaInterface
         $context = stream_context_create($options);
 
         $output = file_get_contents($this->apiUrl, false, $context);
-        $output = trim($output, '"');
 
-        return $output;
+        return trim($output, '"');
     }
 }

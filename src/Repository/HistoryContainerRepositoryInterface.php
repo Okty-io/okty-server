@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\ValueObject\Service\Args;
 use App\Entity\History;
+use App\ValueObject\Service\Args;
 
 /**
  * @author Laurent Bassin <laurent@bassin.info>

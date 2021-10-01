@@ -11,12 +11,11 @@ use League\OAuth2\Client\Provider\Github;
  */
 class GithubOAuthFactory
 {
-
     public static function createService(string $clientId, string $clientSecret): Github
     {
         return new Github([
             'clientId' => $clientId,
-            'clientSecret' => $clientSecret
+            'clientSecret' => $clientSecret,
         ]);
     }
 }

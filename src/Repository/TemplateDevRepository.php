@@ -13,10 +13,10 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
  */
 class TemplateDevRepository implements TemplateRepositoryInterface
 {
-    private $decoder;
-    private $denormalizer;
+    private DecoderInterface $decoder;
+    private DenormalizerInterface $denormalizer;
 
-    private $apiUrl;
+    private string $apiUrl;
 
     public function __construct(DecoderInterface $decoder, DenormalizerInterface $denormalizer)
     {
@@ -26,6 +26,9 @@ class TemplateDevRepository implements TemplateRepositoryInterface
         $this->apiUrl = 'http://config-api/';
     }
 
+    /**
+     * @return Template[]
+     */
     public function findAll(): array
     {
         $file = 'templates';

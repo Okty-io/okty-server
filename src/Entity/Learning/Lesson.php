@@ -21,6 +21,8 @@ class Lesson
      * @ORM\Column(type="uuid", unique=true)
      *
      * @Groups({"chapter_list", "chapter_show", "lesson_list", "lesson_show"})
+     *
+     * @var string
      */
     private $id;
 
@@ -29,31 +31,34 @@ class Lesson
      *
      * @Groups({"chapter_list", "chapter_show", "lesson_list", "lesson_show"})
      */
-    private $name;
+    private string $name;
 
     /**
      * @ORM\Column(type="integer")
      *
      * @Groups({"lesson_show"})
      */
-    private $position;
+    private int $position;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Learning\Chapter", inversedBy="lessons")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $chapter;
+    private Chapter $chapter;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Learning\Step", mappedBy="lesson", orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
      *
      * @Groups({"lesson_show"})
+     *
+     * @var Step[]|Collection<int, Step>
      */
-    private $steps;
+    private Collection $steps;
 
     public function __construct(string $id, string $name, int $position, Chapter $chapter, ?Collection $steps = null)
     {
+        $this->steps = new ArrayCollection();
         $this->id = $id;
         $this->name = $name;
         $this->position = $position;

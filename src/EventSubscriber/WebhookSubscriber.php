@@ -17,8 +17,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class WebhookSubscriber implements EventSubscriberInterface
 {
-    private $webhookSecret;
-    private $webhookBranch;
+    private string $webhookSecret;
+    private string $webhookBranch;
 
     public function __construct(string $webhookSecret, string $webhookBranch)
     {
@@ -26,14 +26,17 @@ class WebhookSubscriber implements EventSubscriberInterface
         $this->webhookBranch = $webhookBranch;
     }
 
-    public static function getSubscribedEvents()
+    /**
+     * @return array<string, string>
+     */
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::CONTROLLER => 'onKernelController',
         ];
     }
 
-    public function onKernelController(ControllerEvent $event)
+    public function onKernelController(ControllerEvent $event): void
     {
         $controller = $event->getController();
         if (!is_array($controller)) {
@@ -45,7 +48,7 @@ class WebhookSubscriber implements EventSubscriberInterface
         }
 
         if (!$this->checkBranch($event->getRequest())) {
-            throw new AccessDeniedHttpException("This branch is not allowed in the environment");
+            throw new AccessDeniedHttpException('This branch is not allowed in the environment');
         }
 
         if (!$this->checkSignature($event->getRequest())) {
@@ -62,7 +65,7 @@ class WebhookSubscriber implements EventSubscriberInterface
 
         $payloadHash = hash_hmac($algo, (string) $payload, $this->webhookSecret);
 
-        return hash_equals($hash, $payloadHash) === true;
+        return true === hash_equals($hash, $payloadHash);
     }
 
     private function checkBranch(Request $request): bool

@@ -6,10 +6,11 @@ namespace App\EventListener;
 
 use App\Repository\UserRepositoryInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class JWTCreatedListener
+class JWTCreatedListener implements EventSubscriberInterface
 {
-    private $userRepository;
+    private UserRepositoryInterface $userRepository;
 
     public function __construct(UserRepositoryInterface $userRepository)
     {
@@ -28,5 +29,13 @@ class JWTCreatedListener
         $payload['login'] = $user->getLogin();
 
         $event->setData($payload);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return ['lexik_jwt_authentication.on_jwt_created' => 'onJWTCreated'];
     }
 }

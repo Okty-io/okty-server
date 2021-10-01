@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class LearningImportCommand extends Command
 {
-    private $learningImport;
+    private LearningImport $learningImport;
 
     protected static $defaultName = 'learning:import';
 
@@ -23,12 +23,12 @@ class LearningImportCommand extends Command
         $this->learningImport = $learningImport;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDescription('Import learning');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $this->learningImport->import();
     }

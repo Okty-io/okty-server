@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Api\Template;
 
@@ -14,8 +16,8 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class Show
 {
-    private $templateRepository;
-    private $serializer;
+    private TemplateRepositoryInterface $templateRepository;
+    private SerializerInterface $serializer;
 
     public function __construct(TemplateRepositoryInterface $templateRepository, SerializerInterface $serializer)
     {
@@ -26,7 +28,7 @@ class Show
     /**
      * @Route("templates/{id}", methods={"GET"}, requirements={"id": "^[a-zA-Z0-9]+$"})
      */
-    public function handle(Request $request): Response
+    public function handle(Request $request): JsonResponse
     {
         $templates = $this->templateRepository->findOneById($request->attributes->get('id'));
 

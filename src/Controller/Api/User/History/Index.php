@@ -18,10 +18,10 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class Index
 {
-    private $historyRepository;
-    private $tokenManager;
-    private $tokenStorage;
-    private $serializer;
+    private HistoryRepositoryInterface $historyRepository;
+    private JWTTokenManagerInterface $tokenManager;
+    private TokenStorageInterface $tokenStorage;
+    private SerializerInterface $serializer;
 
     public function __construct(
         HistoryRepositoryInterface $historyRepository,

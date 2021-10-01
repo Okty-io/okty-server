@@ -4,14 +4,15 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * @author Laurent Bassin <laurent@bassin.info>
  */
 class UserRepository implements UserRepositoryInterface
 {
-    private $entityManager;
-    private $repository;
+    private EntityManagerInterface $entityManager;
+    private EntityRepository $repository;
 
     public function __construct(EntityManagerInterface $entityManager)
     {

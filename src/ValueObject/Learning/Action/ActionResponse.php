@@ -9,8 +9,8 @@ namespace App\ValueObject\Learning\Action;
  */
 class ActionResponse
 {
-    private $validated;
-    private $details;
+    private bool $validated;
+    private array $details;
 
     public function __construct(bool $validated, array $details)
     {
@@ -27,5 +27,4 @@ class ActionResponse
     {
         return $this->details;
     }
-
 }

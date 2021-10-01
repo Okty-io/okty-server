@@ -9,6 +9,9 @@ namespace App\ValueObject\Learning\Action\Qcm;
  */
 class QcmConfigQuestion
 {
+    /**
+     * @var string|null
+     */
     private $title;
     private $questions;
     private $responses;

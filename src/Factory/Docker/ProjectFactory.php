@@ -1,13 +1,15 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Factory\Docker;
 
-use App\ValueObject\Service\Args;
-use App\ValueObject\Project;
 use App\Event\Build\AfterBuildEvent;
 use App\Event\Build\BeforeBuildEvent;
 use App\Event\Build\BuildEvent;
 use App\Factory\Docker\Resolver\FilesResolver;
+use App\ValueObject\Project;
+use App\ValueObject\Service\Args;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -15,9 +17,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class ProjectFactory
 {
-    private $composerFactory;
-    private $filesResolver;
-    private $eventDispatcher;
+    private ComposeFactory $composerFactory;
+    private FilesResolver $filesResolver;
+    private EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
         ComposeFactory $composerFactory,

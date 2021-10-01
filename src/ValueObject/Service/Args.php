@@ -11,24 +11,30 @@ use LogicException;
  */
 class Args
 {
-    /** @var Id $id */
-    private $id;
-    /** @var string $image */
+    private Id $id;
+    /** @var string */
+
     private $image;
-    /** @var string $version */
+
+    /** @var string */
     private $version;
-    /** @var array $compose */
+
+    /** @var array */
     private $compose;
-    /** @var array $ports */
+
+    /** @var array */
     private $ports;
-    /** @var array $volumes */
+
+    /** @var array */
     private $volumes;
-    /** @var array $environments */
+
+    /** @var array */
     private $environments;
-    /** @var array $fileArgs */
+
+    /** @var array */
     private $fileArgs;
-    /** @var bool $fromBuilder */
-    private $fromBuilder;
+
+    private bool $fromBuilder;
 
     public function __construct(array $config)
     {
@@ -83,7 +89,7 @@ class Args
         }
 
         $this->fromBuilder = false;
-        if (isset($config['builder']) && $config['builder'] === true) {
+        if (isset($config['builder']) && true === $config['builder']) {
             $this->fromBuilder = true;
         }
     }

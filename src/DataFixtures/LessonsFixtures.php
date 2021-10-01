@@ -6,12 +6,12 @@ use App\Entity\Learning\Chapter;
 use App\Entity\Learning\Lesson;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
 
 class LessonsFixtures extends Fixture implements DependentFixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $chapterRepository = $manager->getRepository(Chapter::class);
         $chapters = $chapterRepository->findBy([], ['position' => 'ASC']);
@@ -41,7 +41,7 @@ class LessonsFixtures extends Fixture implements DependentFixtureInterface
                 $lesson = new Lesson(Uuid::uuid4()->toString(), $lesson, $index, $chapter);
                 $manager->persist($lesson);
 
-                $index++;
+                ++$index;
             }
         }
 

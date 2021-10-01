@@ -17,24 +17,26 @@ class HistoryContainer
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
+     *
+     * @var UuidInterface|null
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
-    private $image;
+    private string $image;
 
     /**
-     * @ORM\Column(type="text", nullable=false)
+     * @ORM\Column(type="text")
      */
-    private $args;
+    private string $args;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\History", inversedBy="containers")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $history;
+    private History $history;
 
     public function __construct(History $history, string $image, string $args)
     {

@@ -16,8 +16,8 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class Tag
 {
-    private $serializer;
-    private $hub;
+    private SerializerInterface $serializer;
+    private Hub $hub;
 
     public function __construct(SerializerInterface $serializer, Hub $hub)
     {

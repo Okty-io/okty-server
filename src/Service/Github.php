@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -19,15 +21,15 @@ use Psr\Log\LoggerInterface;
  */
 class Github
 {
-    private $githubClient;
-    private $githubUser;
-    private $githubRepo;
-    private $githubBranch;
-    private $githubOAuth;
-    private $logger;
-    private $cache;
-    private $committerName;
-    private $committerEmail;
+    private GithubClient $githubClient;
+    private string $githubUser;
+    private string $githubRepo;
+    private string $githubBranch;
+    private GithubOAuth $githubOAuth;
+    private LoggerInterface $logger;
+    private Cache $cache;
+    private string $committerName;
+    private string $committerEmail;
 
     public function __construct(
         GithubOAuth $githubOAuth,
@@ -78,11 +80,11 @@ class Github
 
             return $data ?? '';
         } catch (\RuntimeException $exception) {
-            if ($exception->getCode() == 401 || $exception->getCode() == 403) {
+            if (401 == $exception->getCode() || 403 == $exception->getCode()) {
                 throw new BadCredentialsException('Github API');
             }
 
-            if ($exception->getCode() == 404) {
+            if (404 == $exception->getCode()) {
                 throw new FileNotFoundException($path);
             }
 
@@ -110,11 +112,11 @@ class Github
 
             return $data;
         } catch (\RuntimeException $exception) {
-            if ($exception->getCode() == 401 || $exception->getCode() == 403) {
+            if (401 == $exception->getCode() || 403 == $exception->getCode()) {
                 throw new BadCredentialsException('Github API');
             }
 
-            if ($exception->getCode() == 404) {
+            if (404 == $exception->getCode()) {
                 throw new FileNotFoundException($path);
             }
 
@@ -219,7 +221,7 @@ class Github
             $this->githubClient->git()->references()
                 ->create($this->githubUser, $this->githubRepo, $reference);
         } catch (\Exception $exception) {
-            throw new \LogicException("Branch {$target->getBranch()} already exists");
+            throw new \LogicException("Branch {$target->getBranch()} already exists", $exception->getCode(), $exception);
         }
     }
 

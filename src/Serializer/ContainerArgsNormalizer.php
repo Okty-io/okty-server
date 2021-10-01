@@ -13,20 +13,19 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
  */
 class ContainerArgsNormalizer implements NormalizerInterface
 {
-    private $objectNormalizer;
+    private ObjectNormalizer $objectNormalizer;
 
-    private $format;
-    private $context;
+    private ?string $format = null;
+    private ?array $context = null;
 
     public function __construct(ObjectNormalizer $objectNormalizer)
     {
         $this->objectNormalizer = $objectNormalizer;
     }
 
-    public function normalize($container, $format = null, array $context = [])
-    {
-        /** @var Args $container */
 
+    public function normalize($container, $format = null, array $context = []): array
+    {
         $this->format = $format;
         $this->context = $context;
 
@@ -41,7 +40,7 @@ class ContainerArgsNormalizer implements NormalizerInterface
         ];
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof Args;
     }

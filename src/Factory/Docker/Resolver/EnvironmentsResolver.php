@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Factory\Docker\Resolver;
 
@@ -10,6 +12,9 @@ use App\ValueObject\Service\Environment;
  */
 class EnvironmentsResolver
 {
+    /**
+     * @return string[]
+     */
     public function resolve(Args $args): array
     {
         $output = [];

@@ -13,8 +13,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class Index
 {
-    private $serializer;
-    private $lessonRepository;
+    private SerializerInterface $serializer;
+    private LessonRepositoryInterface $lessonRepository;
 
     public function __construct(SerializerInterface $serializer, LessonRepositoryInterface $lessonRepository)
     {
@@ -25,7 +25,7 @@ class Index
     /**
      * @Route("/learning/chapters/{id}/lessons", methods={"GET"})
      */
-    public function handle(Request $request): Response
+    public function handle(Request $request): JsonResponse
     {
         $id = $request->attributes->get('id');
         $lessons = $this->lessonRepository->findByChapterId($id);

@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class ComposeNormalizer implements NormalizerInterface
 {
-    private $serviceNormalizer;
+    private ServiceNormalizer $serviceNormalizer;
 
     public function __construct(ServiceNormalizer $serviceNormalizer)
     {
@@ -36,7 +36,7 @@ class ComposeNormalizer implements NormalizerInterface
         ];
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof DockerCompose;
     }

@@ -14,9 +14,9 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
  */
 class TemplateRepository implements TemplateRepositoryInterface
 {
-    private $github;
-    private $decoder;
-    private $denormalizer;
+    private Github $github;
+    private DecoderInterface $decoder;
+    private DenormalizerInterface $denormalizer;
 
     public function __construct(Github $github, DecoderInterface $decoder, DenormalizerInterface $denormalizer)
     {
@@ -25,6 +25,9 @@ class TemplateRepository implements TemplateRepositoryInterface
         $this->denormalizer = $denormalizer;
     }
 
+    /**
+     * @return Template[]
+     */
     public function findAll(): array
     {
         $list = $this->github->getTree('templates');

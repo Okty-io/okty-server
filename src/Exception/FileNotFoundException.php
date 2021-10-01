@@ -11,9 +11,8 @@ use Throwable;
  */
 class FileNotFoundException extends \RuntimeException
 {
-
-    public function __construct(string $message = "", int $code = 404, Throwable $previous = null)
+    public function __construct(string $message = '', int $code = 404, Throwable $previous = null)
     {
-        parent::__construct(sprintf("File %s not found", $message), $code, $previous);
+        parent::__construct(sprintf('File %s not found', $message), $code, $previous);
     }
 }

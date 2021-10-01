@@ -11,10 +11,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class Template
 {
-    private $id;
-    private $name;
-    private $logo;
-    private $containers;
+    private string $id;
+    private string $name;
+    private string $logo;
+    private array $containers;
 
     public function __construct(string $id, string $name, string $logo, $containers = [])
     {

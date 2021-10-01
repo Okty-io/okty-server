@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Factory\Docker\Resolver;
 
@@ -13,8 +15,8 @@ use App\ValueObject\Service\Args;
  */
 class FilesResolver
 {
-    private $containerRepository;
-    private $lambdaHelper;
+    private ContainerRepositoryInterface $containerRepository;
+    private LambdaInterface $lambdaHelper;
 
     public function __construct(ContainerRepositoryInterface $containerRepository, LambdaInterface $lambdaHelper)
     {
@@ -22,6 +24,9 @@ class FilesResolver
         $this->lambdaHelper = $lambdaHelper;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function resolve(Args $containerArgs): array
     {
         $manifest = $this->containerRepository->findManifestByContainerId($containerArgs->getImage());

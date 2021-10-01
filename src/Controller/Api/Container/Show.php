@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Api\Container;
 
@@ -14,8 +16,8 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class Show
 {
-    private $containerRepository;
-    private $serializer;
+    private ContainerRepositoryInterface $containerRepository;
+    private SerializerInterface $serializer;
 
     public function __construct(ContainerRepositoryInterface $containerRepository, SerializerInterface $serializer)
     {
@@ -26,7 +28,7 @@ class Show
     /**
      * @Route("containers/{id}", methods={"GET"}, requirements={"id": "^[a-zA-Z]+(-)?[a-zA-Z]+$"})
      */
-    public function handle(Request $request): Response
+    public function handle(Request $request): JsonResponse
     {
         $container = $this->containerRepository->findOneById($request->attributes->get('id'));
 

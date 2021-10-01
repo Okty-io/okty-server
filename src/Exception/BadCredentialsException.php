@@ -13,7 +13,7 @@ class BadCredentialsException extends \RuntimeException
 {
     public function __construct(string $service, int $code = 401, Throwable $previous = null)
     {
-        $message = sprintf("Cannot connect to %s", $service);
+        $message = sprintf('Cannot connect to %s', $service);
 
         parent::__construct($message, $code, $previous);
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Api\Container;
 
@@ -13,8 +15,8 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class Index
 {
-    private $containerRepository;
-    private $serializer;
+    private ContainerRepositoryInterface $containerRepository;
+    private SerializerInterface $serializer;
 
     public function __construct(ContainerRepositoryInterface $containerRepository, SerializerInterface $serializer)
     {
@@ -25,7 +27,7 @@ class Index
     /**
      * @Route("containers", methods={"GET"})
      */
-    public function handle(): Response
+    public function handle(): JsonResponse
     {
         $containers = $this->containerRepository->findAll();
 

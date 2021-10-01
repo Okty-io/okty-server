@@ -9,10 +9,10 @@ namespace App\ValueObject\Service;
  */
 class Option
 {
-    private $key;
-    private $value;
+    private string $key;
+    private string $value;
 
-    private $ignoredKeys = [
+    private array $ignoredKeys = [
         'id',
         'version',
         'volumes',
@@ -20,7 +20,7 @@ class Option
         'files',
         'environments',
         'image',
-        'build'
+        'build',
     ];
 
     public function __construct(string $key, string $value)

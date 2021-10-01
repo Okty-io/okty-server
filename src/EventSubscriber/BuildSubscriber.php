@@ -20,9 +20,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  */
 class BuildSubscriber implements EventSubscriberInterface
 {
-    private $tokenStorage;
-    private $historyContainerRepository;
-    private $historyRepository;
+    private TokenStorageInterface $tokenStorage;
+    private HistoryContainerRepositoryInterface $historyContainerRepository;
+    private HistoryRepositoryInterface $historyRepository;
 
     public function __construct(
         TokenStorageInterface $tokenStorage,
@@ -34,7 +34,10 @@ class BuildSubscriber implements EventSubscriberInterface
         $this->historyRepository = $historyRepository;
     }
 
-    public static function getSubscribedEvents()
+    /**
+     * @return array<string, string>
+     */
+    public static function getSubscribedEvents(): array
     {
         return [
             BuildEvent::BEFORE_BUILD => 'beforeBuild',
@@ -45,19 +48,17 @@ class BuildSubscriber implements EventSubscriberInterface
 
     public function beforeBuild(BeforeBuildEvent $event): void
     {
-
     }
 
     public function addContainer(AddContainerEvent $event): void
     {
-
     }
 
     public function afterBuild(AfterBuildEvent $event): void
     {
         /** @var User $user */
         $user = $this->tokenStorage->getToken()->getUser();
-        if (!$user || $user == 'anon.') {
+        if (!$user || 'anon.' == $user) {
             return;
         }
 

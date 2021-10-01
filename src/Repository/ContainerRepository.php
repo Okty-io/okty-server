@@ -17,10 +17,10 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class ContainerRepository implements ContainerRepositoryInterface
 {
-    private $github;
-    private $decoder;
-    private $denormalizer;
-    private $serializer;
+    private Github $github;
+    private DecoderInterface $decoder;
+    private DenormalizerInterface $denormalizer;
+    private SerializerInterface $serializer;
 
     public function __construct(
         Github $github,
@@ -34,6 +34,9 @@ class ContainerRepository implements ContainerRepositoryInterface
         $this->serializer = $serializer;
     }
 
+    /**
+     * @return Container[]
+     */
     public function findAll(): array
     {
         $elements = [];

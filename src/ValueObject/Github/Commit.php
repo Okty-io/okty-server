@@ -61,5 +61,4 @@ class Commit
     {
         return $this->commitSha;
     }
-
 }

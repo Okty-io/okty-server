@@ -29,20 +29,20 @@ class Step
      *
      * @Groups({"lesson_show"})
      */
-    private $position;
+    private int $position;
 
     /**
      * @ORM\Column(type="text")
      *
      * @Groups({"lesson_show"})
      */
-    private $text;
+    private string $text;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Learning\Lesson", inversedBy="steps")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $lesson;
+    private Lesson $lesson;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Learning\Action")
@@ -50,7 +50,7 @@ class Step
      *
      * @Groups({"lesson_show"})
      */
-    private $action;
+    private ?Action $action;
 
     public function __construct(string $id, int $position, string $text, Lesson $lesson, ?Action $action = null)
     {

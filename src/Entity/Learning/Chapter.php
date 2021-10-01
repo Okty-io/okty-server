@@ -37,32 +37,35 @@ class Chapter
      *
      * @Groups({"chapter_list", "chapter_show"})
      */
-    private $name;
+    private string $name;
 
     /**
      * @ORM\Column(type="integer")
      *
      * @Groups({"chapter_show"})
      */
-    private $position;
+    private int $position;
 
     /**
      * @ORM\Column(type="string", length=5)
      *
      * @Groups({"show"})
      */
-    private $language;
+    private string $language;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Learning\Lesson", mappedBy="chapter", orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
      *
      * @Groups({"chapter_list", "chapter_show"})
+     *
+     * @var Lesson[]|Collection<int, Lesson>
      */
-    private $lessons;
+    private Collection $lessons;
 
     public function __construct(string $id, string $name, int $position, string $language, ?Collection $lessons = null)
     {
+        $this->lessons = new ArrayCollection();
         $this->id = $id;
         $this->name = $name;
         $this->position = $position;

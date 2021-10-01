@@ -9,9 +9,9 @@ namespace App\ValueObject\Github;
  */
 class Target
 {
-    private $branch;
-    private $message;
-    private $folder;
+    private string $branch;
+    private string $message;
+    private string $folder;
 
     public function __construct(string $branch, string $message, string $folder)
     {
@@ -19,7 +19,7 @@ class Target
             throw new \InvalidArgumentException('Branch name is require');
         }
 
-        if (in_array($branch, ['dev'])) {
+        if ('dev' == $branch) {
             throw new \InvalidArgumentException('Specified branch name is not allowed');
         }
         $this->branch = $branch.'-'.substr(uniqid(), -3);

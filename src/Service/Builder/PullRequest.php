@@ -12,7 +12,6 @@ use Symfony\Component\Yaml\Yaml;
  */
 class PullRequest
 {
-
     public function getTitle(array $container): string
     {
         if (empty($container['image'])) {
@@ -29,7 +28,7 @@ class PullRequest
         }
 
         $hubLink = 'https://hub.docker.com/r/';
-        $name = strpos($container['image'], '/') === false ? '_/'.$container['image'] : $container['image'];
+        $name = false === strpos($container['image'], '/') ? '_/'.$container['image'] : $container['image'];
 
         $hubLink .= $name;
 

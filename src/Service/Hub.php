@@ -12,10 +12,10 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  */
 class Hub
 {
-    private $httpClient;
-    private $hubUrl;
-    private $pageSize;
-    private $authUrl;
+    private HttpClientInterface $httpClient;
+    private string $hubUrl;
+    private int $pageSize;
+    private string $authUrl;
 
     public function __construct(HttpClientInterface $httpClient, string $hubUrl, int $pageSize, string $authUrl)
     {
@@ -45,9 +45,7 @@ class Hub
         $dataOfficial = $dataOfficial->getData('summaries') ?? [];
         $dataCommunity = $dataCommunity->getData('summaries') ?? [];
 
-        $response = array_merge($dataOfficial, $dataCommunity);
-
-        return $response;
+        return array_merge($dataOfficial, $dataCommunity);
     }
 
     public function getTags(string $image): array
@@ -68,7 +66,7 @@ class Hub
 
         $response = $this->httpClient->request('GET', $apiUrl, [
             'headers' => [
-                'Authorization' => "Bearer ".$authResponse->getData('access_token'),
+                'Authorization' => 'Bearer '.$authResponse->getData('access_token'),
             ],
         ]);
 
@@ -76,5 +74,4 @@ class Hub
 
         return $tags->getData('tags');
     }
-
 }

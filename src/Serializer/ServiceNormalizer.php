@@ -12,10 +12,9 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class ServiceNormalizer implements NormalizerInterface
 {
-    public function normalize($service, $format = null, array $context = [])
-    {
-        /** @var Service $service */
 
+    public function normalize($service, $format = null, array $context = []): array
+    {
         $output = [];
         $output[$service->getImage() ? 'image' : 'build'] = $service->getImage() ? $service->getImage() : $service->getBuild();
         $output = array_merge($output, $service->getOptions());
@@ -27,7 +26,7 @@ class ServiceNormalizer implements NormalizerInterface
         return array_filter($output);
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof Service;
     }

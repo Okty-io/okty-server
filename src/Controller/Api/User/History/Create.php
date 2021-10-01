@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\User\History;
 
-use App\ValueObject\Service\Args;
 use App\Entity\History;
 use App\Repository\HistoryContainerRepositoryInterface;
 use App\Repository\HistoryRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
 use App\ValueObject\Json;
+use App\ValueObject\Service\Args;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -23,11 +23,11 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  */
 class Create
 {
-    private $historyRepository;
-    private $tokenManager;
-    private $tokenStorage;
-    private $userRepository;
-    private $historyContainerRepository;
+    private HistoryRepositoryInterface $historyRepository;
+    private JWTTokenManagerInterface $tokenManager;
+    private TokenStorageInterface $tokenStorage;
+    private UserRepositoryInterface $userRepository;
+    private HistoryContainerRepositoryInterface $historyContainerRepository;
 
     public function __construct(
         HistoryRepositoryInterface $historyRepository,

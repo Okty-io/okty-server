@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Api\Template;
 
@@ -13,8 +15,8 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class Index
 {
-    private $templateRepository;
-    private $serializer;
+    private TemplateRepositoryInterface $templateRepository;
+    private SerializerInterface $serializer;
 
     public function __construct(TemplateRepositoryInterface $templateRepository, SerializerInterface $serializer)
     {
@@ -25,7 +27,7 @@ class Index
     /**
      * @Route("templates", methods={"GET"})
      */
-    public function handle(): Response
+    public function handle(): JsonResponse
     {
         $templates = $this->templateRepository->findAll();
 

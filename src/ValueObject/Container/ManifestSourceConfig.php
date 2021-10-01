@@ -9,8 +9,8 @@ namespace App\ValueObject\Container;
  */
 class ManifestSourceConfig
 {
-    private $output;
-    private $args;
+    private string $output;
+    private ?array $args = null;
 
     public function __construct(array $config)
     {

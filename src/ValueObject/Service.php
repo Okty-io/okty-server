@@ -9,7 +9,7 @@ namespace App\ValueObject;
  */
 class Service
 {
-    private $id;
+    private string $id;
     private $image;
     private $build;
     private $options;
@@ -31,7 +31,7 @@ class Service
         $this->build = $image['build'] ?? '';
 
         if (empty($this->image) && empty($this->build)) {
-            throw new \LogicException("At least one of these two options is required (Image/Build");
+            throw new \LogicException('At least one of these two options is required (Image/Build');
         }
 
         $this->options = $options;
@@ -55,21 +55,33 @@ class Service
         return $this->build;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getOptions(): array
     {
         return $this->options;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getPorts(): array
     {
         return $this->ports;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getVolumes(): array
     {
         return $this->volumes;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getEnvironments(): array
     {
         return $this->environments;

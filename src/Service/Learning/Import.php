@@ -10,7 +10,6 @@ use App\Service\Github;
 use App\ValueObject\Learning\Github\Chapter;
 use App\ValueObject\Learning\Github\Lesson;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -18,21 +17,18 @@ use Symfony\Component\Yaml\Yaml;
  */
 class Import
 {
-    private $github;
-    private $serializer;
-    private $chapterRepository;
-    private $lessonRepository;
-    private $logger;
+    private Github $github;
+    private ChapterRepositoryInterface $chapterRepository;
+    private LessonRepositoryInterface $lessonRepository;
+    private LoggerInterface $logger;
 
     public function __construct(
         Github $github,
-        SerializerInterface $serializer,
         ChapterRepositoryInterface $chapterRepository,
         LessonRepositoryInterface $lessonRepository,
         LoggerInterface $logger
     ) {
         $this->github = $github;
-        $this->serializer = $serializer;
         $this->chapterRepository = $chapterRepository;
         $this->lessonRepository = $lessonRepository;
         $this->logger = $logger;
@@ -56,9 +52,8 @@ class Import
     {
         $this->chapterRepository->clear();
 
-        /** @var Chapter $chapter */
+        /* @var Chapter $chapter */
         foreach ($chapters as $chapterValue) {
-
             foreach ($chapterValue->getAvailableLanguages() as $language) {
                 $chapter = $this->chapterRepository->createFromValueObject($chapterValue, $language);
                 $this->chapterRepository->save($chapter);
@@ -68,36 +63,41 @@ class Import
                     $this->lessonRepository->save($lesson);
                 }
             }
-
         }
     }
 
+    /**
+     * @return Chapter[]
+     */
     public function getChapters(): array
     {
         $position = 1;
         $chapters = [];
         $data = Yaml::parse($this->github->getFile('learning/chapters.yml'));
 
-        $this->logger->info("Chapters to load", $data);
+        $this->logger->info('Chapters to load', $data);
 
         foreach ($data['chapters'] ?? [] as $filename => $config) {
             $this->logger->info("Chapter {$filename} found");
 
             $chapters[] = new Chapter($filename, $config, $position);
 
-            $position++;
+            ++$position;
         }
 
         return $chapters;
     }
 
+    /**
+     * @return Lesson[]
+     */
     public function getLessons(Chapter $chapter): array
     {
         $lessons = [];
         $position = 1;
 
         foreach ($chapter->getLessonsReferences() as $reference) {
-            $path = sprintf("%s/%s/%s.yml", 'learning', $chapter->getFilename(), $reference);
+            $path = sprintf('%s/%s/%s.yml', 'learning', $chapter->getFilename(), $reference);
             $data = Yaml::parse($this->github->getFile($path));
 
             foreach ($data['steps'] as $index => $step) {
@@ -106,18 +106,21 @@ class Import
 
             $lessons[] = new Lesson($data, $position);
 
-            $position++;
+            ++$position;
         }
 
         return $lessons;
     }
 
+    /**
+     * @return string[]
+     */
     public function getStepText(Chapter $chapter, string $lesson, array $text): array
     {
         $output = [];
 
         foreach ($text as $language => $filename) {
-            $path = sprintf("learning/%s/%s/%s.md", $chapter->getFilename(), $lesson, $filename);
+            $path = sprintf('learning/%s/%s/%s.md', $chapter->getFilename(), $lesson, $filename);
 
             $output[$language] = $this->github->getFile($path);
         }

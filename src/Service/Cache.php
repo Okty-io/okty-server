@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 
 /**
@@ -12,13 +11,11 @@ use Symfony\Component\Cache\Adapter\AdapterInterface;
  */
 class Cache
 {
-    private $adapter;
-    private $logger;
+    private AdapterInterface $adapter;
 
-    public function __construct(AdapterInterface $adapter, LoggerInterface $logger)
+    public function __construct(AdapterInterface $adapter)
     {
         $this->adapter = $adapter;
-        $this->logger = $logger;
     }
 
     public function has(string $key): bool
@@ -55,8 +52,6 @@ class Cache
 
     private function normalizeKey(string $key): string
     {
-        $key = str_replace('/', '.', $key);
-
-        return $key;
+        return str_replace('/', '.', $key);
     }
 }

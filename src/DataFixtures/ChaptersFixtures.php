@@ -4,12 +4,12 @@ namespace App\DataFixtures;
 
 use App\Entity\Learning\Chapter;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
 
 class ChaptersFixtures extends Fixture
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $data = [
             ['id' => Uuid::uuid4()->toString(), 'name' => 'Introduction', 'position' => 1, 'language' => 'fr_FR'],

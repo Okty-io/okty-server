@@ -2,10 +2,9 @@
 
 namespace App\Repository;
 
-use App\ValueObject\Service\Args;
 use App\Entity\History;
 use App\Entity\HistoryContainer;
-use Doctrine\ORM\EntityManagerInterface;
+use App\ValueObject\Service\Args;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
@@ -13,14 +12,10 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class HistoryContainerRepository implements HistoryContainerRepositoryInterface
 {
-    private $entityManager;
-    private $repository;
-    private $serializer;
+    private SerializerInterface $serializer;
 
-    public function __construct(EntityManagerInterface $entityManager, SerializerInterface $serializer)
+    public function __construct(SerializerInterface $serializer)
     {
-        $this->entityManager = $entityManager;
-        $this->repository = $entityManager->getRepository(HistoryContainer::class);
         $this->serializer = $serializer;
     }
 

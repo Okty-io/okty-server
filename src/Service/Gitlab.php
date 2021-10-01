@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -13,9 +15,9 @@ use Psr\Log\LoggerInterface;
  */
 class Gitlab
 {
-    private $gitlabOAuth;
-    private $gitlabClient;
-    private $logger;
+    private GitlabOAuth $gitlabOAuth;
+    private GitlabClient $gitlabClient;
+    private LoggerInterface $logger;
 
     public function __construct(GitlabOAuth $gitlabOAuth, GitlabClient $gitlabClient, LoggerInterface $logger)
     {

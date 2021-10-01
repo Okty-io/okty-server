@@ -29,7 +29,7 @@ class Action
      *
      * @Groups({"lesson_show"})
      */
-    private $type;
+    private string $type;
 
     /**
      * @ORM\Column(type="json")
@@ -43,7 +43,7 @@ class Action
      *
      * @Groups({"step_show"})
      */
-    private $language;
+    private string $language;
 
     public function __construct(string $id, string $type, array $config, string $language)
     {

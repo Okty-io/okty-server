@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -12,7 +14,7 @@ use ZipArchive;
  */
 class Zip
 {
-    private $normalizer;
+    private NormalizerInterface $normalizer;
 
     public function __construct(NormalizerInterface $normalizer)
     {
@@ -26,7 +28,7 @@ class Zip
         try {
             $zip = new ZipArchive();
             $created = $zip->open($path, ZipArchive::OVERWRITE);
-            if ($created !== true) {
+            if (true !== $created) {
                 throw new \RuntimeException('Output directory not writable');
             }
 
@@ -35,12 +37,12 @@ class Zip
             /** @var File $file */
             foreach ($files as $file) {
                 $added = $zip->addFromString($file->getName(), $file->getContent());
-                if ($added !== true) {
-                    throw new \RuntimeException(sprintf("Cannot add file %s inside zip", $file->getName()));
+                if (true !== $added) {
+                    throw new \RuntimeException(sprintf('Cannot add file %s inside zip', $file->getName()));
                 }
             }
 
-            if ($zip->close() !== true) {
+            if (true !== $zip->close()) {
                 throw new \RuntimeException('Cannot save file');
             }
 
@@ -55,7 +57,7 @@ class Zip
                 $error = $exception->getMessage();
             }
 
-            throw new \RuntimeException($error);
+            throw new \RuntimeException($error, $exception->getCode(), $exception);
         }
     }
 }

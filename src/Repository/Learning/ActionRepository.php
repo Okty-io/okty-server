@@ -7,18 +7,17 @@ namespace App\Repository\Learning;
 use App\Entity\Learning\Action;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * @author Laurent Bassin <laurent@bassin.info>
  */
 class ActionRepository implements ActionRepositoryInterface
 {
-    private $entityManager;
-    private $repository;
+    private EntityRepository $repository;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
         $this->repository = $entityManager->getRepository(Action::class);
     }
 

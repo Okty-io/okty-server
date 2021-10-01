@@ -20,53 +20,57 @@ class User implements UserInterface
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
+     *
+     * @var UuidInterface|null
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $login;
+    private string $login;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $avatar;
+    private ?string $avatar;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $name;
+    private ?string $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $email;
+    private ?string $email;
 
     /**
      * @ORM\Column(type="integer", name="api_id")
      */
-    private $apiId;
+    private int $apiId;
 
     /**
      * @ORM\Column(type="string")
      */
-    private $provider;
+    private string $provider;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $accessToken;
+    private ?string $accessToken = null;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $roles = 'ROLE_USER';
+    private string $roles = 'ROLE_USER';
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\History", mappedBy="user", orphanRemoval=true)
+     *
+     * @var History[]|Collection<int, History>
      */
-    private $history;
+    private Collection $history;
 
     public function __construct(
         int $apiId,
@@ -126,7 +130,7 @@ class User implements UserInterface
         return $this->accessToken;
     }
 
-    public function getHistory(): Collection
+    public function getHistory(): ArrayCollection
     {
         return $this->history;
     }
@@ -141,6 +145,9 @@ class User implements UserInterface
         return $this->getId()->toString();
     }
 
+    /**
+     * @return string[]
+     */
     public function getRoles(): array
     {
         return explode(',', $this->roles);
@@ -148,16 +155,13 @@ class User implements UserInterface
 
     public function getPassword(): void
     {
-        return;
     }
 
     public function getSalt(): void
     {
-        return;
     }
 
     public function eraseCredentials(): void
     {
-        return;
     }
 }

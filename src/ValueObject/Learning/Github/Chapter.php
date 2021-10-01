@@ -9,10 +9,10 @@ namespace App\ValueObject\Learning\Github;
  */
 class Chapter
 {
-    private $filename;
-    private $name;
-    private $lessons;
-    private $position;
+    private string $filename;
+    private array $name;
+    private array $lessons;
+    private int $position;
 
     public function __construct(string $filename, array $config, int $position)
     {

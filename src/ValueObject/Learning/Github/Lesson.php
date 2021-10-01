@@ -7,9 +7,15 @@ namespace App\ValueObject\Learning\Github;
  */
 class Lesson
 {
-    private $id;
-    private $name;
+    private array $id;
+    private array $name;
+    /**
+     * @var Step[]
+     */
     private $steps;
+    /**
+     * @var int|null
+     */
     private $position;
 
     public function __construct(array $config, int $position)
@@ -84,7 +90,7 @@ class Lesson
         return $this->id[$language];
     }
 
-    public function getPosition(): int
+    public function getPosition(): ?int
     {
         return $this->position;
     }

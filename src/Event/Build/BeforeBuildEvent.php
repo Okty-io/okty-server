@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Event\Build;
 
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * @author Laurent Bassin <laurent@bassin.info>
  */
 class BeforeBuildEvent extends Event
 {
-    private $containers;
+    private array $containers;
 
     public function __construct(array $containers)
     {

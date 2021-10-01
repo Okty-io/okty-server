@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Api;
 
@@ -17,8 +19,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class Build
 {
-    private $projectFactory;
-    private $zipHelper;
+    private ProjectFactory $projectFactory;
+    private Zip $zipHelper;
 
     public function __construct(ProjectFactory $projectFactory, Zip $zipHelper)
     {

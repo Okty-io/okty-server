@@ -16,11 +16,11 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class ContainerDevRepository implements ContainerRepositoryInterface
 {
-    private $decoder;
-    private $denormalizer;
-    private $serializer;
+    private DecoderInterface $decoder;
+    private DenormalizerInterface $denormalizer;
+    private SerializerInterface $serializer;
 
-    private $apiUrl;
+    private string $apiUrl;
 
     public function __construct(
         DecoderInterface $decoder,
@@ -34,6 +34,9 @@ class ContainerDevRepository implements ContainerRepositoryInterface
         $this->apiUrl = 'http://config-api/';
     }
 
+    /**
+     * @return Container[]
+     */
     public function findAll(): array
     {
         $file = 'containers';

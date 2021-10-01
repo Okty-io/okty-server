@@ -18,9 +18,9 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class Check
 {
-    private $actionValidator;
-    private $actionRepository;
-    private $serializer;
+    private ActionValidator $actionValidator;
+    private ActionRepositoryInterface $actionRepository;
+    private SerializerInterface $serializer;
 
     public function __construct(
         ActionValidator $actionValidator,
@@ -35,7 +35,7 @@ class Check
     /**
      * @Route("/learning/check", methods={"POST"})
      */
-    public function handle(Request $request): Response
+    public function handle(Request $request): JsonResponse
     {
         $data = (new Json($request->getContent()))->getValue();
         $action = $this->actionRepository->findById($data['id']);

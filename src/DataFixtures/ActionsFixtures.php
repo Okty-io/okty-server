@@ -7,12 +7,12 @@ use App\Entity\Learning\Chapter;
 use App\Entity\Learning\Lesson;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
 
 class ActionsFixtures extends Fixture implements DependentFixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $chapterRepository = $manager->getRepository(Chapter::class);
         $chapters = $chapterRepository->findAll();
@@ -25,7 +25,7 @@ class ActionsFixtures extends Fixture implements DependentFixtureInterface
                     continue;
                 }
 
-                $action = new Action(Uuid::uuid4()->toString(), 'qcm', $this->getQcmConfig());
+                $action = new Action(Uuid::uuid4()->toString(), 'qcm', $this->getQcmConfig(), 'fr_FR');
                 $manager->persist($action);
 
                 $lastStep = $lesson->getSteps()->last();

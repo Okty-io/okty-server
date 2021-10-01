@@ -11,6 +11,7 @@ use App\Entity\Learning\Step;
 use App\ValueObject\Learning\Github\Lesson as GithubLesson;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
+use Doctrine\ORM\EntityRepository;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -18,8 +19,8 @@ use Ramsey\Uuid\Uuid;
  */
 class LessonRepository implements LessonRepositoryInterface
 {
-    private $entityManager;
-    private $repository;
+    private EntityManagerInterface $entityManager;
+    private EntityRepository $repository;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
@@ -27,11 +28,17 @@ class LessonRepository implements LessonRepositoryInterface
         $this->repository = $entityManager->getRepository(Lesson::class);
     }
 
+    /**
+     * @return \App\Entity\Learning\Lesson[]
+     */
     public function findAll(): array
     {
         return $this->repository->findBy([], ['position' => 'ASC']);
     }
 
+    /**
+     * @return \App\Entity\Learning\Lesson[]
+     */
     public function findByChapterId(string $id): array
     {
         return $this->repository->findBy(['chapter' => $id], ['position' => 'ASC']);
@@ -68,7 +75,7 @@ class LessonRepository implements LessonRepositoryInterface
         /** @var \App\ValueObject\Learning\Github\Step $stepValue */
         foreach ($lessonValue->getSteps() as $stepValue) {
             $action = null;
-            if ($stepValue->getAction()) {
+            if (null !== $stepValue->getAction()) {
                 $action = new Action(
                     Uuid::uuid4()->toString(),
                     $stepValue->getAction()->getType(),

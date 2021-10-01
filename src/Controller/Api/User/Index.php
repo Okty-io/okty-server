@@ -16,9 +16,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  */
 class Index
 {
-    private $tokenStorage;
-    private $tokenManager;
-    private $userRepository;
+    private TokenStorageInterface $tokenStorage;
+    private JWTTokenManagerInterface $tokenManager;
+    private UserRepositoryInterface $userRepository;
 
     public function __construct(
         TokenStorageInterface $tokenStorage,

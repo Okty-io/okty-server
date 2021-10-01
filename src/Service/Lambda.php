@@ -1,10 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
 use App\Exception\BadCredentialsException;
 use Aws\Lambda\Exception\LambdaException;
 use Aws\Lambda\LambdaClient;
+use Aws\Result;
 use GuzzleHttp\Psr7\Stream;
 
 /**
@@ -12,13 +15,11 @@ use GuzzleHttp\Psr7\Stream;
  */
 class Lambda implements LambdaInterface
 {
-    private $lambdaClient;
-    private $cache;
+    private LambdaClient $lambdaClient;
 
-    public function __construct(LambdaClient $lambdaClient, Cache $cache)
+    public function __construct(LambdaClient $lambdaClient)
     {
         $this->lambdaClient = $lambdaClient;
-        $this->cache = $cache;
     }
 
     public function invoke($function, $resolver, $arg): string
@@ -34,21 +35,21 @@ class Lambda implements LambdaInterface
 //        }
 
         try {
-            /** @var \Aws\Result $response */
+            /** @var Result $response */
             $response = $this->lambdaClient->invoke([
                 'FunctionName' => $function,
                 'Payload' => json_encode(['name' => $resolver, 'value' => $arg]),
             ]);
         } catch (LambdaException $exception) {
-            if ($exception->getStatusCode() == 404) {
-                throw new \RuntimeException("Function $function not found");
+            if (404 == $exception->getStatusCode()) {
+                throw new \RuntimeException("Function $function not found", $exception->getCode(), $exception);
             }
 
-            if ($exception->getStatusCode() == 403 || $exception->getStatusCode() == 401) {
+            if (403 == $exception->getStatusCode() || 401 == $exception->getStatusCode()) {
                 throw new BadCredentialsException('AWS Lambda');
             }
 
-            throw new \RuntimeException($exception->getMessage());
+            throw new \RuntimeException($exception->getMessage(), $exception->getCode(), $exception);
         }
 
         if ($response->get('FunctionError')) {
@@ -63,10 +64,8 @@ class Lambda implements LambdaInterface
             $output .= $stream->read(255);
         }
 
-        $output = trim($output, '"');
-
 //        $this->cache->set($key, $output);
 
-        return $output;
+        return trim($output, '"');
     }
 }

@@ -23,9 +23,9 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class Submit
 {
-    private $github;
-    private $pullRequest;
-    private $userRepository;
+    private Github $github;
+    private PullRequest $pullRequest;
+    private UserRepositoryInterface $userRepository;
 
     public function __construct(Github $github, PullRequest $pullRequest, UserRepositoryInterface $userRepository)
     {
@@ -38,7 +38,7 @@ class Submit
      * @Route("builder/submit", methods={"POST"})
      * @IsGranted("ROLE_USER")
      */
-    public function handle(Request $request): Response
+    public function handle(Request $request): JsonResponse
     {
         $data = new Json($request->getContent());
 
@@ -54,7 +54,7 @@ class Submit
         $anonymousEmail = 'anynomous@okty.io';
 
         $user = $this->userRepository->findById($userData['id']);
-        if (!$user) {
+        if (null === $user) {
             $user = new User(0, 'Anonymous', $anonymousEmail, null, null, 'anonymous');
         }
 

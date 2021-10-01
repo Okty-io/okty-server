@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Api\Learning\Chapter;
 
@@ -14,8 +16,8 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class Index
 {
-    private $serializer;
-    private $chapterRepository;
+    private SerializerInterface $serializer;
+    private ChapterRepositoryInterface $chapterRepository;
 
     public function __construct(SerializerInterface $serializer, ChapterRepositoryInterface $chapterRepository)
     {
@@ -26,7 +28,7 @@ class Index
     /**
      * @Route("/learning/chapters", methods={"GET"})
      */
-    public function handle(Request $request): Response
+    public function handle(Request $request): JsonResponse
     {
         $language = $request->query->get('lang', 'en_US');
         $chapters = $this->chapterRepository->findAll($language);

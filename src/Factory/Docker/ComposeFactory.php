@@ -1,47 +1,41 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Factory\Docker;
 
-use App\ValueObject\Service\Args;
-use App\ValueObject\DockerCompose;
-use App\ValueObject\Service;
 use App\Factory\Docker\Resolver\EnvironmentsResolver;
-use App\Factory\Docker\Resolver\FilesResolver;
 use App\Factory\Docker\Resolver\ImageResolver;
 use App\Factory\Docker\Resolver\OptionsResolver;
 use App\Factory\Docker\Resolver\PortsResolver;
 use App\Factory\Docker\Resolver\VolumesResolver;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use App\ValueObject\DockerCompose;
+use App\ValueObject\Service;
+use App\ValueObject\Service\Args;
 
 /**
  * @author Laurent Bassin <laurent@bassin.info>
  */
 class ComposeFactory
 {
-    private $imageResolver;
-    private $portsResolver;
-    private $volumesResolver;
-    private $environmentsResolver;
-    private $optionsResolver;
-    private $filesResolver;
-    private $eventDispatcher;
+    private ImageResolver $imageResolver;
+    private PortsResolver $portsResolver;
+    private VolumesResolver $volumesResolver;
+    private EnvironmentsResolver $environmentsResolver;
+    private OptionsResolver $optionsResolver;
 
     public function __construct(
         ImageResolver $imageResolver,
         PortsResolver $portsResolver,
         VolumesResolver $volumesResolver,
         EnvironmentsResolver $environmentsResolver,
-        OptionsResolver $optionsResolver,
-        FilesResolver $filesResolver,
-        EventDispatcherInterface $eventDispatcher
+        OptionsResolver $optionsResolver
     ) {
         $this->imageResolver = $imageResolver;
         $this->portsResolver = $portsResolver;
         $this->volumesResolver = $volumesResolver;
         $this->environmentsResolver = $environmentsResolver;
         $this->optionsResolver = $optionsResolver;
-        $this->filesResolver = $filesResolver;
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function build(array $containers): DockerCompose

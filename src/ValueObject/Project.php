@@ -9,8 +9,8 @@ namespace App\ValueObject;
  */
 class Project
 {
-    private $dockerCompose;
-    private $files;
+    private DockerCompose $dockerCompose;
+    private array $files;
 
     public function __construct(DockerCompose $dockerCompose, array $files)
     {
@@ -19,9 +19,7 @@ class Project
         $this->files = [];
         foreach ($files as $file) {
             if (!$file instanceof File) {
-                throw new \LogicException(
-                    sprintf('Only File type can be added to a project, %s given', gettype($file))
-                );
+                throw new \LogicException(sprintf('Only File type can be added to a project, %s given', gettype($file)));
             }
 
             $this->files[] = $file;
@@ -33,6 +31,9 @@ class Project
         return $this->dockerCompose;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getFiles(): array
     {
         return $this->files;

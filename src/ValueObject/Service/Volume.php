@@ -9,9 +9,8 @@ namespace App\ValueObject\Service;
  */
 class Volume
 {
-
-    private $host;
-    private $container;
+    private string $host;
+    private string $container;
 
     public function __construct(string $host, string $container)
     {
@@ -23,8 +22,8 @@ class Volume
             throw new \LogicException("Cannot match $host to empty target");
         }
 
-        if ($container[0] !== '/') {
-            throw new \LogicException("Container path need to start from root folder");
+        if ('/' !== $container[0]) {
+            throw new \LogicException('Container path need to start from root folder');
         }
 
         $this->host = $host;

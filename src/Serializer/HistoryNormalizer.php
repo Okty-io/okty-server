@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Serializer;
 
 use App\Entity\History;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
@@ -12,16 +13,16 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class HistoryNormalizer implements NormalizerInterface
 {
-    private $historyContainerNormalizer;
+    private HistoryContainerNormalizer $historyContainerNormalizer;
 
     public function __construct(HistoryContainerNormalizer $historyContainerNormalizer)
     {
         $this->historyContainerNormalizer = $historyContainerNormalizer;
     }
 
-    public function normalize($history, $format = null, array $context = [])
+
+    public function normalize($history, $format = null, array $context = []): array
     {
-        /** @var History $history */
         $containers = [];
         foreach ($history->getContainers() as $container) {
             $containers[] = $this->historyContainerNormalizer->normalize($container, $format, $context);
@@ -34,7 +35,7 @@ class HistoryNormalizer implements NormalizerInterface
         ];
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof History;
     }

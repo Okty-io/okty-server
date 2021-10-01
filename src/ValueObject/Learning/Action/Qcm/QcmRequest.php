@@ -9,13 +9,13 @@ namespace App\ValueObject\Learning\Action\Qcm;
  */
 class QcmRequest
 {
-    private $questions;
+    private array $questions;
 
     public function __construct(array $config)
     {
         $this->questions = [];
         foreach ($config as $question) {
-            foreach ($question as $id => $response) {
+            foreach ($question as $response) {
                 if (!is_bool($response)) {
                     throw new \LogicException('Response should be a boolean value');
                 }
@@ -25,6 +25,9 @@ class QcmRequest
         }
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getResponsesByQuestion(int $questionId): array
     {
         if (!isset($this->questions[$questionId])) {

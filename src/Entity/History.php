@@ -19,6 +19,8 @@ class History
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
+     *
+     * @var UuidInterface|null
      */
     private $id;
 
@@ -26,17 +28,21 @@ class History
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="histories")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private User $user;
 
     /**
-     * @ORM\Column(type="datetime_immutable", nullable=false)
+     * @ORM\Column(type="datetime_immutable")
+     *
+     * @var \DateTimeImmutable
      */
     private $createdAt;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\HistoryContainer", mappedBy="history", orphanRemoval=true)
+     *
+     * @var HistoryContainer[]|Collection<int, HistoryContainer>
      */
-    private $containers;
+    private Collection $containers;
 
     public function __construct(User $user)
     {
@@ -60,11 +66,14 @@ class History
         return $this->createdAt;
     }
 
-    public function getContainers(): Collection
+    public function getContainers(): ArrayCollection
     {
         return $this->containers;
     }
 
+    /**
+     * @param HistoryContainer[]|Collection<int, HistoryContainer> $container
+     */
     public function addContainer(HistoryContainer $container): void
     {
         $this->containers[] = $container;

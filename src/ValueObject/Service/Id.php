@@ -9,12 +9,12 @@ namespace App\ValueObject\Service;
  */
 class Id
 {
-    private $value;
+    private string $value;
 
     public function __construct(string $value)
     {
         if (empty($value)) {
-            throw new \LogicException("Id cannot be empty");
+            throw new \LogicException('Id cannot be empty');
         }
 
         if (!preg_match('/^([a-zA-Z0-9]-?)*[a-zA-Z0-9]+$/', $value)) {

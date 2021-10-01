@@ -4,32 +4,36 @@ namespace App\Controller;
 
 use App\Exception\BadCredentialsException;
 use App\Exception\FileNotFoundException;
-use Symfony\Bundle\TwigBundle\Controller\ExceptionController;
-use Symfony\Component\Debug\Exception\FlattenException;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
+use Symfony\Component\HttpKernel\Controller\ErrorController;
 
 /**
  * @author Laurent Bassin <laurent@bassin.info>
  */
-class Exception extends ExceptionController
+class Exception
 {
-    public function showAction(Request $request, FlattenException $exception, DebugLoggerInterface $logger = null): Response
+    private ErrorController $errorController;
+
+    public function __construct(ErrorController $errorController)
     {
-        if ($exception->getClass() === FileNotFoundException::class) {
+        $this->errorController = $errorController;
+    }
+
+    public function __invoke(\Throwable $exception): Response
+    {
+        if ($exception instanceof FileNotFoundException) {
             return new JsonResponse(['error' => $exception->getMessage()], $exception->getCode());
         }
 
-        if ($exception->getClass() === BadCredentialsException::class) {
+        if ($exception instanceof BadCredentialsException) {
             return new JsonResponse(['error' => $exception->getMessage()], $exception->getCode());
         }
 
-        if ($exception->getClass() === \LogicException::class) {
+        if ($exception instanceof \LogicException) {
             return new JsonResponse(['error' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
         }
 
-        return parent::showAction($request, $exception, $logger);
+        return $this->errorController->__invoke($exception);
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Api\Learning\Chapter;
 
@@ -14,8 +16,8 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class Show
 {
-    private $serializer;
-    private $chapterRepository;
+    private SerializerInterface $serializer;
+    private ChapterRepositoryInterface $chapterRepository;
 
     public function __construct(SerializerInterface $serializer, ChapterRepositoryInterface $chapterRepository)
     {
@@ -26,7 +28,7 @@ class Show
     /**
      * @Route("/learning/chapters/{id}", methods={"GET"})
      */
-    public function handle(Request $request): Response
+    public function handle(Request $request): JsonResponse
     {
         $id = $request->attributes->get('id');
         $chapter = $this->chapterRepository->findById($id);

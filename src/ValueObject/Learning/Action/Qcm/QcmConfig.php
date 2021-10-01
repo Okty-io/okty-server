@@ -9,7 +9,7 @@ namespace App\ValueObject\Learning\Action\Qcm;
  */
 class QcmConfig
 {
-    private $questions;
+    private array $questions;
 
     public function __construct(array $config)
     {
@@ -20,6 +20,9 @@ class QcmConfig
         }
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getQuestions(): array
     {
         return $this->questions;

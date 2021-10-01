@@ -9,11 +9,17 @@ namespace App\ValueObject\Container;
  */
 class Manifest
 {
+    /**
+     * @var string|mixed
+     */
     private $image;
+    /**
+     * @var string|mixed
+     */
     private $build;
     private $tag;
 
-    private $files;
+    private array $files;
 
     public function __construct(array $docker, array $files = [], array $config = [])
     {

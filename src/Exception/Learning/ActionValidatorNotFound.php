@@ -11,9 +11,9 @@ use Throwable;
  */
 class ActionValidatorNotFound extends \RuntimeException
 {
-    public function __construct(string $type = "", int $code = 400, Throwable $previous = null)
+    public function __construct(string $type = '', int $code = 400, Throwable $previous = null)
     {
-        $message = sprintf("Cannot found validator for %s", $type);
+        $message = sprintf('Cannot found validator for %s', $type);
 
         parent::__construct($message, $code, $previous);
     }

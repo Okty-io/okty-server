@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Factory\Docker\Resolver;
 
@@ -12,13 +14,16 @@ use Exception;
  */
 class ImageResolver
 {
-    private $containerRepository;
+    private ContainerRepositoryInterface $containerRepository;
 
     public function __construct(ContainerRepositoryInterface $containerRepository)
     {
         $this->containerRepository = $containerRepository;
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function resolve(Args $args): array
     {
         $output = [];
@@ -45,7 +50,7 @@ class ImageResolver
             $tag = $version;
         }
 
-        $output['image'] .= $tag ? ':'.$tag : '';
+        $output['image'] .= '' !== $tag && '0' !== $tag ? ':'.$tag : '';
 
         return $output;
     }

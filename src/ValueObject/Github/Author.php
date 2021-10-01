@@ -9,8 +9,8 @@ namespace App\ValueObject\Github;
  */
 class Author
 {
-    private $name;
-    private $email;
+    private string $name;
+    private string $email;
 
     public function __construct(string $name, string $email)
     {

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Repository\Learning;
 
 use App\Entity\Learning\Chapter;
-use App\Service\Github;
 use App\ValueObject\Learning\Github\Chapter as GithubChapter;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
+use Doctrine\ORM\EntityRepository;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -16,17 +16,18 @@ use Ramsey\Uuid\Uuid;
  */
 class ChapterRepository implements ChapterRepositoryInterface
 {
-    private $entityManager;
-    private $repository;
-    private $github;
+    private EntityManagerInterface $entityManager;
+    private EntityRepository $repository;
 
-    public function __construct(EntityManagerInterface $entityManager, Github $github)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
         $this->repository = $entityManager->getRepository(Chapter::class);
-        $this->github = $github;
     }
 
+    /**
+     * @return Chapter[]
+     */
     public function findAll(string $language): array
     {
         return $this->repository->findBy(['language' => $language], ['position' => 'ASC']);

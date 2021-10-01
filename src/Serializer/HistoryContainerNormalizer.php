@@ -6,30 +6,25 @@ namespace App\Serializer;
 
 use App\Entity\HistoryContainer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 /**
  * @author Laurent Bassin <laurent@bassin.info>
  */
 class HistoryContainerNormalizer implements NormalizerInterface
 {
-    private $normalizer;
-
-    public function __construct(ObjectNormalizer $normalizer)
+    /**
+     * @return array<string, string>
+     */
+    public function normalize($container, $format = null, array $context = []): array
     {
-        $this->normalizer = $normalizer;
-    }
-
-    public function normalize($container, $format = null, array $context = [])
-    {
-        /** @var HistoryContainer $container */
+        /* @var HistoryContainer $container */
         return [
             'image' => $container->getImage(),
             'args' => $container->getArgs(),
         ];
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof HistoryContainer;
     }

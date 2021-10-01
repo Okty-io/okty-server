@@ -10,11 +10,11 @@ namespace App\ValueObject\Learning\Github;
 class Action
 {
     private $type;
-    private $config;
+    private array $config;
 
     public function __construct(array $config)
     {
-        if (!in_array($config['type'], ['qcm'])) {
+        if ('qcm' != $config['type']) {
             throw new \LogicException('Action type is not allowed : '.$config['type']);
         }
         $this->type = $config['type'];

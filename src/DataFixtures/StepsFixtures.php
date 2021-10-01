@@ -7,14 +7,15 @@ use App\Entity\Learning\Lesson;
 use App\Entity\Learning\Step;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 use Ramsey\Uuid\Uuid;
 
 class StepsFixtures extends Fixture implements DependentFixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $faker = \Faker\Factory::create('fr');
+        $faker = Factory::create('fr');
 
         $chapterRepository = $manager->getRepository(Chapter::class);
         $chapters = $chapterRepository->findAll();
@@ -27,7 +28,7 @@ class StepsFixtures extends Fixture implements DependentFixtureInterface
 
                 foreach (range(3, $stepCount) as $index) {
                     $text = '';
-                    for ($i = 0; $i < $faker->numberBetween(1, 4); $i++) {
+                    for ($i = 0; $i < $faker->numberBetween(1, 4); ++$i) {
                         $text .= sprintf('<p>%s</p>', $faker->text(400));
                     }
 
@@ -40,6 +41,9 @@ class StepsFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
+    /**
+     * @return array<class-string<LessonsFixtures>>
+     */
     public function getDependencies(): array
     {
         return [

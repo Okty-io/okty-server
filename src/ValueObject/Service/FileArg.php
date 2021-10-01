@@ -9,8 +9,8 @@ namespace App\ValueObject\Service;
  */
 class FileArg
 {
-    private $key;
-    private $value;
+    private string $key;
+    private string $value;
 
     public function __construct(string $key, string $value)
     {

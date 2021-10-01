@@ -17,7 +17,7 @@ class QcmValidator implements ValidatorInterface
 {
     public function supports(string $type): bool
     {
-        return strtolower($type) === 'qcm';
+        return 'qcm' === strtolower($type);
     }
 
     public function validate(Action $action, array $data): ActionResponse
@@ -40,7 +40,6 @@ class QcmValidator implements ValidatorInterface
             }
         }
 
-        return new ActionResponse(count($errors) === 0, ['errors' => $errors]);
+        return new ActionResponse([] === $errors, ['errors' => $errors]);
     }
-
 }

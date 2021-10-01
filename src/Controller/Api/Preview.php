@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Api;
 
@@ -7,7 +9,6 @@ use App\ValueObject\Json;
 use App\ValueObject\Service\Args;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
@@ -16,8 +17,8 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class Preview
 {
-    private $builder;
-    private $normalizer;
+    private ComposeFactory $builder;
+    private NormalizerInterface $normalizer;
 
     public function __construct(ComposeFactory $builder, NormalizerInterface $normalizer)
     {
@@ -28,7 +29,7 @@ class Preview
     /**
      * @Route("preview", methods={"POST"})
      */
-    public function single(Request $request): Response
+    public function single(Request $request): JsonResponse
     {
         $args = new Json($request->getContent());
         $containerArgs = new Args($args->getValue());
@@ -41,7 +42,7 @@ class Preview
     /**
      * @Route("preview/full", methods={"POST"})
      */
-    public function full(Request $request): Response
+    public function full(Request $request): JsonResponse
     {
         $args = new Json($request->getContent());
 

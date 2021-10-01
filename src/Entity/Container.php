@@ -11,19 +11,19 @@ class Container
     /**
      * @Groups({"list"})
      */
-    private $id;
+    private string $id;
 
     /**
      * @Groups({"list"})
      */
-    private $name;
+    private string $name;
 
     /**
      * @Groups({"list"})
      */
-    private $logo;
+    private string $logo;
 
-    private $config;
+    private array $config;
 
     public function __construct(string $id, string $name, string $logo, array $config = [])
     {
@@ -33,22 +33,22 @@ class Container
         $this->config = $config;
     }
 
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getLogo()
+    public function getLogo(): string
     {
         return $this->logo;
     }
 
-    public function getConfig()
+    public function getConfig(): array
     {
         return $this->config;
     }
